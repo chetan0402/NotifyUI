@@ -77,16 +77,15 @@ class NotifyWindow(QMainWindow):
     def setCloseClick(self,value:bool) -> None:
         self.close_if_clicked=value
     
-    # FIXME - Make this work
     def mousePressEvent(self, a0: QtGui.QMouseEvent) -> None:
         if a0.button()==Qt.MouseButton.LeftButton and self.close_if_clicked:
             self.animation = QPropertyAnimation(self, b"windowOpacity")
-            self.animation.setDuration(1000)
+            self.animation.setDuration(500)
             self.animation.setStartValue(1.0)
             self.animation.setEndValue(0.0)
             self.animation.setEasingCurve(QEasingCurve.Type.InOutQuad)
+            self.animation.finished.connect(QApplication.exit)
             self.animation.start()
-            QApplication.exit()
 
 class NotifyText:
     style_sheet=""
@@ -108,13 +107,14 @@ class NotifyText:
                  text:str,
                  font:QtGui.QFont=QtGui.QFont("Helvetica",13,QtGui.QFont.Weight.Normal),
                  color:str="#ffffff") -> None:
-        # BUG - Textwarp so it doesn't go outside
         element=QLabel(parent)
         element.setStyleSheet("color:"+color)
         element.setText(text)
         element.setFont(font)
         element.move(x,y)
-        element.adjustSize()
+        element.setFixedWidth(336)
+        element.setWordWrap(True)
+        # BUG - MainWindow doesn't expand vertically when QLabel has.
         parent.adjustSize()
 
     def setBackgroundColor(self,color:str) -> None:
