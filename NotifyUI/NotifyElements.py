@@ -72,9 +72,24 @@ class NotifyWindow(QMainWindow):
                        text:str,
                        font:QtGui.QFont=QtGui.QFont("Helvetica",13,QtGui.QFont.Weight.Normal),
                        color:str="#ffffff"):
+        """
+        Adds a text element to the window.
+        x: the x position of the element.
+        y: the y position of the element.
+        h: the height of the element.
+        w: the width of the element.
+        text: the text of the element.
+        font: the font of the text.
+        e.g. QFont("Helvetica",10,QtGui.QFont.Weight.Normal)
+        color: the color of the text.
+        """
         return NotifyText(self,x,y,text,font,color)
     
     def setCloseClick(self,value:bool) -> None:
+        """
+        Toggle if the window should close when left clicked.
+        value: True or False.
+        """
         self.close_if_clicked=value
     
     def mousePressEvent(self, a0: QtGui.QMouseEvent) -> None:
@@ -138,6 +153,14 @@ class NotifyText:
 
 
 def sendWinStyleNotify(app_name:str,title:str,msg:str) -> None:
+    """
+    Sends a windows 10 inspired style notification.
+    app_name: the name of the application.
+    title: the title of the notification.
+    msg: the message of the notification.
+    e.g. "Notify Elements","Hello World","This is a test message."
+    Note: This function is a thread. So it won't block the main thread.
+    """
     thread=threading.Thread(target=__sendWinStyleNotify,args=(app_name,title,msg))
     thread.start()
 
