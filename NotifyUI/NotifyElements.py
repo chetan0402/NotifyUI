@@ -1,7 +1,8 @@
-from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QWidget
+from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel
 from PyQt6.QtCore import Qt, QPropertyAnimation, QEasingCurve
 from PyQt6 import QtGui
 import sys
+import threading
 
 class NotifyApplication:
     """
@@ -137,7 +138,10 @@ class NotifyText:
 
 
 def sendWinStyleNotify(app_name:str,title:str,msg:str) -> None:
-    # TODO - Make it threaded instead of in main loop
+    thread=threading.Thread(target=__sendWinStyleNotify,args=(app_name,title,msg))
+    thread.start()
+
+def __sendWinStyleNotify(app_name:str,title:str,msg:str) -> None:
     app=NotifyApplication()
     NotifyText(app.window,10,10,app_name,font=QtGui.QFont("Segoe UI",10,QtGui.QFont.Weight.Normal))
     NotifyText(app.window,10,40,title,font=QtGui.QFont("Segoe UI",13,QtGui.QFont.Weight.Bold))
