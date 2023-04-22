@@ -27,26 +27,26 @@ NotifyElements.sendWinStyleNotify("Notify Elements","Hello World","This is a tes
 
 # Methods of classes
 
-## NotifyApplication
+## `NotifyApplication`
 ---
-### send_notification():
+### `send_notification():`
 - This sends the notification which you have created so far.
 
-## NotifyWindow
+## `NotifyWindow`
 ---
-### setBackgroundColor(color):
+### `setBackgroundColor(color):`
 - Set the background color of the window.<br>
 color: the color in string format.<br>
 e.g. "red" or "#ff0000" or "rgb(255,0,0)" or "rgba(255,0,0,0.5)"
 
-### appendStyle(property,value):
+### `appendStyle(property,value):`
 - Append a style to the style sheet.
 property: the property of the style.
 e.g. "background-color" or "border-radius"
 value: the value of the property.
 e.g. "red" or "10px" or "rgba(255,0,0,0.5)"
 
-### addTextElement(x,y,text,font,color):
+### `addTextElement(x,y,text,font,color):`
 - x: x position of the text element inside the window
 y: y position of the text element inside the window
 text: string to be displayed
@@ -54,17 +54,17 @@ font: style of the font (Must be QFont object)
 color: input hex color or rgb() for the color of text
 Note: the font and color input are optional as they do have a default value
 
-### setCloseClick(value):
+### `setCloseClick(value):`
 - If true, the notification would close when left clicked. Default:- false
 
-## NotifyText
+## `NotifyText`
 ---
-### setBackgroundColor(color):
+### `setBackgroundColor(color):`
 - Set the background color of the window.<br>
 color: the color in string format.<br>
 e.g. "red" or "#ff0000" or "rgb(255,0,0)" or "rgba(255,0,0,0.5)"
 
-### appendStyle(property,value):
+### `appendStyle(property,value):`
 - Append a style to the style sheet.
 property: the property of the style.
 e.g. "background-color" or "border-radius"
