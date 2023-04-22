@@ -37,6 +37,8 @@ class NotifyWindow(QMainWindow):
     style_sheet: str = ""
     close_if_clicked: bool = False
     padding: int = 10
+    fade_away_time = 500
+    fade_at_exit = True
 
     def __init__(self) -> None:
         super().__init__()
@@ -101,15 +103,44 @@ class NotifyWindow(QMainWindow):
         """
         self.close_if_clicked = value
 
+    def setPadding(self, value: int) -> None:
+        """
+        Set the padding of the window.
+        value: the padding in pixels.
+        e.g. 10 or 20 or 30.
+        """
+        self.padding = value
+
+    def setFadeAwayTime(self, fadeTime: int) -> None:
+        """
+        Set the fade away time of the window.
+        fadeTime: the fade away time in milliseconds.
+        e.g. 1000 or 2000 or 3000.
+        """
+        self.fade_away_time = fadeTime
+
+    def setFadeAtClick(self, value: bool) -> None:
+        """
+        Toggle if the window should fade away when left clicked.
+        value: True or False.
+        """
+        self.fade_at_exit = value
+
     def mousePressEvent(self, a0: QtGui.QMouseEvent) -> None:
-        if a0.button() == Qt.MouseButton.LeftButton and self.close_if_clicked:
+        if (
+            a0.button() == Qt.MouseButton.LeftButton
+            and self.close_if_clicked
+            and self.fade_at_exit
+        ):
             self.animation = QPropertyAnimation(self, b"windowOpacity")
-            self.animation.setDuration(500)
-            self.animation.setStartValue(1.0)
+            self.animation.setDuration(self.fade_away_time)
+            self.animation.setStartValue(self.windowOpacity())
             self.animation.setEndValue(0.0)
             self.animation.setEasingCurve(QEasingCurve.Type.InOutQuad)
             self.animation.finished.connect(QApplication.exit)
             self.animation.start()
+        elif a0.button() == Qt.MouseButton.LeftButton and self.close_if_clicked:
+            QApplication.exit()
 
 
 class NotifyText:

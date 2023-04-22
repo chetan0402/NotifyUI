@@ -55,7 +55,25 @@ color: input hex color or rgb() for the color of text
 Note: the font and color input are optional as they do have a default value
 
 ### `setCloseClick(value):`
-- If true, the notification would close when left clicked. Default:- false
+- If true, the notification would close when left clicked.
+- Default:- false
+
+### `setPadding(value):`
+- Set the padding of the window.
+value: the padding in pixels.
+e.g. 10 or 20 or 30.
+- Default: 10
+
+### `setFadeAwayTime(value):`
+- Set the fade away time of the window.
+fadeTime: the fade away time in milliseconds.
+e.g. 1000 or 2000 or 3000.
+Default:- 500
+
+### `setFadeAtClick(value):`
+- Toggle if the window should fade away when left clicked.
+value: True or False.
+- Default: True
 
 ## `NotifyText`
 ---
