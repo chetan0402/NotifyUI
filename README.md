@@ -34,6 +34,18 @@ NotifyElements.sendWinStyleNotify("Notify Elements","Hello World","This is a tes
 
 ## `NotifyWindow`
 ---
+### `setWindowTopLeft():`
+- Set the window to the top left of the screen.
+
+### `setWindowTopRight():`
+- Set the window to the top right of the screen.
+
+### `setWindowBottomLeft():`
+- Set the window to the bottom left of the screen.
+
+### `setWindowBottomRight():`
+- Set the window to the BottomRight of the screen.
+
 ### `setBackgroundColor(color):`
 - Set the background color of the window.<br>
 color: the color in string format.<br>

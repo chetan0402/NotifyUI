@@ -33,6 +33,8 @@ class NotifyApplication:
             )
 
 
+# TODO - Auto Fade away with time
+# TODO - Pre-setting for topLeft,topRight,BottomLeft,BottomRight
 class NotifyWindow(QMainWindow):
     style_sheet: str = ""
     close_if_clicked: bool = False
@@ -48,12 +50,6 @@ class NotifyWindow(QMainWindow):
         self.setGeometry(0, 0, 356, 100)
         self.setFixedWidth(356)
         # self.setSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed,QtWidgets.QSizePolicy.Policy.MinimumExpanding)
-        ava_space = (
-            QtGui.QGuiApplication.primaryScreen().availableGeometry().bottomRight()
-        )
-        x = ava_space.x() - self.frameGeometry().width() - self.padding
-        y = ava_space.y() - self.frameGeometry().height() - self.padding
-        self.move(x, y)
         self.setBackgroundColor("#272727")
 
     def setBackgroundColor(self, color: str) -> None:
@@ -125,6 +121,45 @@ class NotifyWindow(QMainWindow):
         value: True or False.
         """
         self.fade_at_exit = value
+
+    def setWindowTopLeft(self) -> None:
+        """
+        Set the window to the top left of the screen.
+        """
+        self.move(self.padding, self.padding)
+
+    def setWindowTopRight(self) -> None:
+        """
+        Set the window to the top right of the screen.
+        """
+        ava_space = (
+            QtGui.QGuiApplication.primaryScreen().availableGeometry().bottomRight()
+        )
+        x = ava_space.x() - self.frameGeometry().width() - self.padding
+        y = self.padding
+        self.move(x, y)
+
+    def setWindowBottomLeft(self) -> None:
+        """
+        Set the window to the bottom left of the screen.
+        """
+        ava_space = (
+            QtGui.QGuiApplication.primaryScreen().availableGeometry().bottomRight()
+        )
+        x = self.padding
+        y = ava_space.y() - self.frameGeometry().height() - self.padding
+        self.move(x, y)
+
+    def setWindowBottomRight(self) -> None:
+        """
+        Set the window to the bottom right of the screen.
+        """
+        ava_space = (
+            QtGui.QGuiApplication.primaryScreen().availableGeometry().bottomRight()
+        )
+        x = ava_space.x() - self.frameGeometry().width() - self.padding
+        y = ava_space.y() - self.frameGeometry().height() - self.padding
+        self.move(x, y)
 
     def mousePressEvent(self, a0: QtGui.QMouseEvent) -> None:
         if (
@@ -234,6 +269,7 @@ def __sendWinStyleNotify(app_name: str, title: str, msg: str) -> None:
         color="#a5a5a5",
     )
     app.window.setCloseClick(True)
+    app.window.setWindowBottomRight()
     app.send_notification()
 
 

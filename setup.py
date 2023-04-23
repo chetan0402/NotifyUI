@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as f:
 
 setup(
     name="NotifyUI",
-    version="0.0.1",
+    version="0.0.2",
     packages=find_packages(),
     url="https://github.com/chetan0402/NotifyUI",
     license="CC BY 4.0",
@@ -14,4 +14,8 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     requires=["PyQt6"],
+    install_requires=["PyQt6"],
+    classifiers=[
+        "Programming Language :: Python :: 3",
+    ],
 )
