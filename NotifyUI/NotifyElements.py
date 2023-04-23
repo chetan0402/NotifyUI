@@ -33,24 +33,9 @@ class NotifyApplication:
             )
 
 
-# TODO - Auto Fade away with time
-# TODO - Pre-setting for topLeft,topRight,BottomLeft,BottomRight
-class NotifyWindow(QMainWindow):
+class NotifyCommon:
     style_sheet: str = ""
-    close_if_clicked: bool = False
-    padding: int = 10
-    fade_away_time = 500
-    fade_at_exit = True
-
-    def __init__(self) -> None:
-        super().__init__()
-        self.setWindowFlag(Qt.WindowType.FramelessWindowHint)
-        self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint)
-        self.setWindowFlag(Qt.WindowType.ToolTip)
-        self.setGeometry(0, 0, 356, 100)
-        self.setFixedWidth(356)
-        # self.setSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed,QtWidgets.QSizePolicy.Policy.MinimumExpanding)
-        self.setBackgroundColor("#272727")
+    fade_away_time: int = 500
 
     def setBackgroundColor(self, color: str) -> None:
         """
@@ -70,6 +55,43 @@ class NotifyWindow(QMainWindow):
         """
         self.style_sheet += property + ":" + value + ";"
         self.setStyleSheet(self.style_sheet)
+
+    def fade(self, exec_at_end) -> None:
+        """
+        Fade away the element.
+        """
+        self.animation = QPropertyAnimation(self, b"windowOpacity")
+        self.animation.setDuration(self.fade_away_time)
+        self.animation.setStartValue(self.windowOpacity())
+        self.animation.setEndValue(0.0)
+        self.animation.setEasingCurve(QEasingCurve.Type.InOutQuad)
+        self.animation.finished.connect(exec_at_end)
+        self.animation.start()
+
+    def setFadeAwayTime(self, fadeTime: int) -> None:
+        """
+        Set the fade away time of the window.
+        fadeTime: the fade away time in milliseconds.
+        e.g. 1000 or 2000 or 3000.
+        """
+        self.fade_away_time = fadeTime
+
+
+# TODO - Auto Fade away with time\
+class NotifyWindow(QMainWindow, NotifyCommon):
+    close_if_clicked: bool = False
+    padding: int = 10
+    fade_at_exit = True
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.setWindowFlag(Qt.WindowType.FramelessWindowHint)
+        self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint)
+        self.setWindowFlag(Qt.WindowType.ToolTip)
+        self.setGeometry(0, 0, 356, 100)
+        self.setFixedWidth(356)
+        # self.setSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed,QtWidgets.QSizePolicy.Policy.MinimumExpanding)
+        self.setBackgroundColor("#272727")
 
     def addTextElement(
         self,
@@ -106,14 +128,6 @@ class NotifyWindow(QMainWindow):
         e.g. 10 or 20 or 30.
         """
         self.padding = value
-
-    def setFadeAwayTime(self, fadeTime: int) -> None:
-        """
-        Set the fade away time of the window.
-        fadeTime: the fade away time in milliseconds.
-        e.g. 1000 or 2000 or 3000.
-        """
-        self.fade_away_time = fadeTime
 
     def setFadeAtClick(self, value: bool) -> None:
         """
@@ -167,18 +181,12 @@ class NotifyWindow(QMainWindow):
             and self.close_if_clicked
             and self.fade_at_exit
         ):
-            self.animation = QPropertyAnimation(self, b"windowOpacity")
-            self.animation.setDuration(self.fade_away_time)
-            self.animation.setStartValue(self.windowOpacity())
-            self.animation.setEndValue(0.0)
-            self.animation.setEasingCurve(QEasingCurve.Type.InOutQuad)
-            self.animation.finished.connect(QApplication.exit)
-            self.animation.start()
+            self.fade(QApplication.exit)
         elif a0.button() == Qt.MouseButton.LeftButton and self.close_if_clicked:
             QApplication.exit()
 
 
-class NotifyText:
+class NotifyText(NotifyCommon):
     style_sheet = ""
     """
         Add a text element to the window.
@@ -210,25 +218,6 @@ class NotifyText:
         element.setWordWrap(True)
         # BUG - MainWindow doesn't expand vertically when QLabel has.
         parent.adjustSize()
-
-    def setBackgroundColor(self, color: str) -> None:
-        """
-        Set the background color of the window.
-        color: the color in string format.
-        e.g. "red" or "#ff0000" or "rgb(255,0,0)" or "rgba(255,0,0,0.5)"
-        """
-        self.appendStyle("background-color", color)
-
-    def appendStyle(self, property: str, value: str) -> None:
-        """
-        Append a style to the style sheet.
-        property: the property of the style.
-        e.g. "background-color" or "border-radius"
-        value: the value of the property.
-        e.g. "red" or "10px" or "rgba(255,0,0,0.5)"
-        """
-        self.style_sheet += property + ":" + value + ";"
-        self.setStyleSheet(self.style_sheet)
 
 
 def sendWinStyleNotify(app_name: str, title: str, msg: str) -> None:

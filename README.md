@@ -100,3 +100,14 @@ property: the property of the style.
 e.g. "background-color" or "border-radius"
 value: the value of the property.
 e.g. "red" or "10px" or "rgba(255,0,0,0.5)"
+
+### `setFadeAtClick(value):`
+- Toggle if the element should fade away when left clicked.
+value: True or False.
+- Default: True
+
+### `setFadeAwayTime(value):`
+- Set the fade away time of the window.
+fadeTime: the fade away time in milliseconds.
+e.g. 1000 or 2000 or 3000.
+Default:- 500
