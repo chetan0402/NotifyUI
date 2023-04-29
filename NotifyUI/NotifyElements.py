@@ -92,7 +92,7 @@ class NotifyTimer:
     time = QTime(0, 0, 0)
     end_time = QTime(0, 0, 0)
 
-    def __init__(self, call_at_end: function, end_qtime: QTime, *args, **kargs) -> None:
+    def __init__(self, call_at_end, end_qtime: QTime, *args, **kargs) -> None:
         self.timer = QTimer()
         self.call_at_end = call_at_end
         self.end_time = end_qtime
