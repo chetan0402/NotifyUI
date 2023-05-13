@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as f:
 
 setup(
     name="NotifyUI",
-    version="0.0.3",
+    version="0.0.4",
     packages=find_packages(),
     url="https://github.com/chetan0402/NotifyUI",
     license="CC BY 4.0",

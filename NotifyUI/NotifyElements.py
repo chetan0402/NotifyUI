@@ -266,11 +266,12 @@ class NotifyText(NotifyCommon):
         element.setFixedWidth(336)
         element.setWordWrap(True)
         # BUG - MainWindow doesn't expand vertically when QLabel has.
+        # Probable fix - change the method to some box thing.
         parent.adjustSize()
 
 
 def sendWinStyleNotify(
-    app_name: str, title: str, msg: str, fadeTime: QTime = QTime(0, 1, 0)
+    app_name: str, title: str, msg: str, fadeTime: QTime = QTime(0, 1, 0), threaded=True
 ) -> None:
     """
     Sends a windows 10 inspired style notification.
@@ -282,10 +283,13 @@ def sendWinStyleNotify(
     e.g. "Notify Elements","Hello World","This is a test message."
     Note: This function is a thread. So it won't block the main thread.
     """
-    thread = threading.Thread(
-        target=__sendWinStyleNotify, args=(app_name, title, msg, fadeTime)
-    )
-    thread.start()
+    if threaded:
+        thread = threading.Thread(
+            target=__sendWinStyleNotify, args=(app_name, title, msg, fadeTime)
+        )
+        thread.start()
+    else:
+        __sendWinStyleNotify(app_name, title, msg, fadeTime, QTime)
 
 
 def __sendWinStyleNotify(
